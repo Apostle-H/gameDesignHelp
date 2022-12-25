@@ -17,7 +17,7 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI loseMistakesText;
         [SerializeField] private TextMeshProUGUI loseTimeText;
         
-        [SerializeField] private Slider healthBar;
+        [SerializeField] private TextMeshProUGUI healthText;
 
         public void ToScene(int index)
         {
@@ -46,9 +46,9 @@ namespace DefaultNamespace
             }
         }
 
-        public void HealthBar(float newValue)
+        public void HealthText(int newValue)
         {
-            healthBar.value = newValue;
+            healthText.text = newValue.ToString();
         }
     }
 }

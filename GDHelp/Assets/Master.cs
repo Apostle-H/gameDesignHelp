@@ -86,7 +86,7 @@ public class Master : MonoBehaviour
     private void Damage(int damage)
     {
         _health -= damage;
-        canvasMaster.HealthBar(maxHealth / _health);
+        canvasMaster.HealthText(_health);
         if (_health <= 0)
         {
             End(false);
