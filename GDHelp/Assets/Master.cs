@@ -20,7 +20,7 @@ public class Master : MonoBehaviour
     [SerializeField] private LayerMask foodMask;
 
     [SerializeField] private Light light;
-    [SerializeField] private float timeDuration;
+    [SerializeField] private float dayDuration;
 
     private int _health; 
     private Camera _cam;
@@ -103,7 +103,7 @@ public class Master : MonoBehaviour
     {
         while (light.intensity > 0.1f)
         {
-            light.intensity -= 0.9f / timeDuration;
+            light.intensity -= 0.9f / dayDuration;
             if (light.intensity < 0.1f)
             {
                 light.intensity = 0.09f;
