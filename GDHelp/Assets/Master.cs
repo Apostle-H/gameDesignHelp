@@ -39,6 +39,8 @@ public class Master : MonoBehaviour
         canvasMaster.HealthText(_health);
 
         Item.OnWrongBox += () => _mistakesCount++;
+
+        StartCoroutine(MoveToNight());
     }
 
     private void Update()
