@@ -16,9 +16,6 @@ public class Master : MonoBehaviour
 
     [SerializeField] private CanvasMaster canvasMaster;
 
-    [SerializeField] private LayerMask itemMask;
-    [SerializeField] private LayerMask foodMask;
-
     [SerializeField] private Light light;
     [SerializeField] private float dayDuration;
 
@@ -47,16 +44,15 @@ public class Master : MonoBehaviour
         if (_carriedObject == null && Input.GetKeyDown(pickUp))
         {
             Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, 100f, itemMask))
+            if (Physics.Raycast(ray, out var hit) &&  hit.collider.gameObject.TryGetComponent(out _carriedObject))
             {
-                _carriedObject = hit.collider.gameObject.GetComponent<Item>();
                 UpdateState(false);
                 Damage(_carriedObject.pickUpDamage);
             }
 
-            if (Physics.Raycast(ray, out hit, 100f, foodMask))
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.TryGetComponent(out Food food))
             {
-                Damage(-hit.collider.gameObject.GetComponent<Food>().heal);
+                Damage(-food.heal);
             }
         }
         
