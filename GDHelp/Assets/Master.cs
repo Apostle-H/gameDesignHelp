@@ -43,12 +43,14 @@ public class Master : MonoBehaviour
 
     private void Update()
     {
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(ray, out hit);
+        
         if (Input.GetKeyDown(pickUp))
         {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            bool didHit = Physics.Raycast(ray, out hit);
-            if (didHit && hit.collider.gameObject.TryGetComponent(out _carriedObject))
+            
+            if (_carriedObject == null && didHit && hit.collider.gameObject.TryGetComponent(out _carriedObject))
             {
                 UpdateState(false);
                 Damage(_carriedObject.pickUpDamage);
@@ -69,8 +71,7 @@ public class Master : MonoBehaviour
 
         if (_canSleep && Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit) && hit.collider.CompareTag("Bed"))
+            if (hit.collider.CompareTag("Bed"))
             {
                 End(true);
             }
@@ -86,6 +87,10 @@ public class Master : MonoBehaviour
     private void Damage(int damage)
     {
         _health -= damage;
+        if (_health > maxHealth)
+        {
+            _health = maxHealth;
+        }
         canvasMaster.HealthText(_health);
         if (_health <= 0)
         {
