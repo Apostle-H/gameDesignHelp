@@ -35,32 +35,36 @@ public class Master : MonoBehaviour
         _cam = Camera.main;
         _health = maxHealth;
         _startDT = DateTime.Now;
+        
+        canvasMaster.HealthText(_health);
 
         Item.OnWrongBox += () => _mistakesCount++;
     }
 
     private void Update()
     {
-        if (_carriedObject == null && Input.GetKeyDown(pickUp))
+        if (Input.GetKeyDown(pickUp))
         {
             Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit) &&  hit.collider.gameObject.TryGetComponent(out _carriedObject))
+            RaycastHit hit;
+            bool didHit = Physics.Raycast(ray, out hit);
+            if (didHit && hit.collider.gameObject.TryGetComponent(out _carriedObject))
             {
                 UpdateState(false);
                 Damage(_carriedObject.pickUpDamage);
             }
-
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.TryGetComponent(out Food food))
+            else if (didHit && hit.collider.gameObject.TryGetComponent(out Food food))
             {
                 Damage(-food.heal);
-            }
+            } 
         }
-        
+
         if (_carriedObject != null && Input.GetKeyDown(drop))
         {
             _carriedObject.transform.position = dropPos.position;
             UpdateState(true);
             Damage(_carriedObject.dropDamage);
+            _carriedObject = null;
         }
 
         if (_canSleep && Input.GetKeyDown(KeyCode.Mouse0))
