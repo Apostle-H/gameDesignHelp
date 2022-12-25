@@ -11,9 +11,11 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI infoText;
 
         [SerializeField] private GameObject winPanel;
+        [SerializeField] private TextMeshProUGUI winMistakesText;
+        [SerializeField] private TextMeshProUGUI winTimeText;
         [SerializeField] private GameObject losePanel;
-        [SerializeField] private TextMeshProUGUI mistakesText;
-        [SerializeField] private TextMeshProUGUI timeText;
+        [SerializeField] private TextMeshProUGUI loseMistakesText;
+        [SerializeField] private TextMeshProUGUI loseTimeText;
         
         [SerializeField] private Slider healthBar;
 
@@ -33,14 +35,15 @@ namespace DefaultNamespace
             if (winLose)
             {
                 winPanel.SetActive(true);
+                winMistakesText.text = mistakes.ToString();
+                winTimeText.text = time.ToString();
             }
             else
             {
                 losePanel.SetActive(true);
+                loseMistakesText.text = mistakes.ToString();
+                loseTimeText.text = time.ToString();
             }
-            
-            mistakesText.text = mistakes.ToString();
-            timeText.text = time.ToString();
         }
 
         public void HealthBar(float newValue)
